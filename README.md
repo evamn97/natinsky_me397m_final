@@ -1,16 +1,17 @@
  
 ## This script runs final_project/main.py from Eva Natinsky's ME397M-DA final project with the following options:
 	
-** Job name: natinsky_final_proj
-** Parition name: normal
-** Nodes: 2
-** MPI tasks: 128
-** Time required: 10 minutes (00:10:00)
+	** Job name: natinsky_final_proj
+	** Parition name: normal
+	** Nodes: 2
+	** MPI tasks: 128
+	** Time required: 10 minutes (00:10:00)
 
--- dataset: 		AFM scans of square pillars
-						--> 20 um square
-						--> 128 px resolution
-						--> 22 total images
+
+	-- dataset: AFM scans of square pillars
+				--> 20 um square
+				--> 128 px resolution
+				--> 22 total images
 
 
 ## Tips for running this script:

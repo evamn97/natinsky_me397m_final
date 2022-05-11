@@ -31,7 +31,7 @@
 module list
 echo "Date: "
 date
-cat run_main.md
+cat README.md
 echo "Working directory: "
 pwd
 
