@@ -8,4 +8,7 @@
 /dataSources.local.xml
 /vcs.xml
 /.idea/*
-
+/data/figures
+/data/figures/*
+/data/json
+/data/json/*
