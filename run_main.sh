@@ -35,6 +35,12 @@ cat README.md
 echo "Working directory: "
 pwd
 
+start=`date +%s`
 
 # Launch code using pipenv virtual environment
 pipenv run python3 main.py -d data
+
+end=`date +%s`
+
+runtime=$((end-start))
+echo "Runtime: $runtime"
