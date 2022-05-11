@@ -27,4 +27,9 @@ To install ```pipenv``` on TACC, run:
 
     pip install --user pipenv
 
-Navigate to your project directory
+Navigate to your project directory and run: 
+
+    pipenv install
+
+This will create a pipenv virtual environment in the project directory and install dependencies listed in ```requirements.txt```. 
+Note that this installs the ```PyPI``` version of ```pathos```, but on TACC this is much easier than installing the Github version, and it still works. 
