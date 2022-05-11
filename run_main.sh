@@ -27,11 +27,10 @@
 
 # pipenv install
 
-
+echo "Shell script for Eva Natinsky's ME397M final project."
 module list
 echo "Date: "
 date
-cat README.md
 echo "Working directory: "
 pwd
 
@@ -42,5 +41,5 @@ pipenv run python3 main.py -d data
 
 end=$(date +%s)
 
-runtime=$((end-start))
-echo "Runtime: $runtime"
+runtime=$(((end-start)/60))
+echo "Runtime: $runtime seconds"
