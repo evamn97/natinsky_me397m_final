@@ -8,12 +8,12 @@
 # See .md file for notes. 
 #----------------------------------------------------
 #SBATCH -J natinsky_final_proj     			# Job name
-#SBATCH -o natinsky_final_proj%j.out   		# Name of stdout output file(%j expands to jobId)
+#SBATCH -o natinsky_final_proj%j.out   	# Name of stdout output file(%j expands to jobId)
 #SBATCH -p normal                  			# Queue (partition) name
 #SBATCH -N 2                        		# Total number of nodes requested 
-#SBATCH -n 128                        		# Total number of mpi tasks requested
+#SBATCH -n 128                        	# Total number of mpi tasks requested (optional) - ** set based on the dimensions of the image (e.g. 128x128 px)
 #SBATCH -t 00:10:00                 		# Run time (hh:mm:ss), max is 48 hours
-#SBATCH -A ME397M-DA	         			# 'ME397M-DA' is the name of our class allocation
+#SBATCH -A ME397M-DA	         			    # 'ME397M-DA' is the name of our class allocation
 
 
 # **PLEASE READ**:
