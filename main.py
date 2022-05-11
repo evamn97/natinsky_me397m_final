@@ -61,40 +61,44 @@ def img_analysis(root_dir, name):
     :return: None
     """
 
-    input_image_file = os.path.join(root_dir, "png", (name + '.png'))
+    input_image_file = os.path.join(root_dir, "png", (name + '.png'))      # get image file
     with Image.open(input_image_file) as img:
         img.load()
 
     # ----------------------------------- Numerical Analysis -----------------------------------
-    input_xyz_file = os.path.join(root_dir, "xyz", (name + '.xyz'))
+    input_xyz_file = os.path.join(root_dir, "xyz", (name + '.xyz'))     # get xyz file
     xyz = pd.read_csv(input_xyz_file, names=['x', 'y', 'z'], delimiter='\t', index_col=False)
     # xyz = xyz * 1000000     # scale by 1e6 for convenience since we're dealing with nanometers
-    profiles = len(set(xyz['y'].values))
-    z_arr = xyz['z'].values.reshape((profiles, -1))
+    profiles = len(set(xyz['y'].values))    # find the number of profiles based on y values
+    z_arr = xyz['z'].values.reshape((profiles, -1))     # get a 2D array of z-height values (like a topography map)
 
-    z_gradient = num_grad(xyz, profiles)
-    xyz['grad'] = z_gradient
+    z_gradient = num_grad(xyz, profiles)    # calculate gradient
+    xyz['grad'] = z_gradient                # add gradient column to df
 
-    z_gradient_arr = z_gradient.values.reshape((profiles, -1))
+    z_gradient_arr = z_gradient.values.reshape((profiles, -1))  # get a 2D gradient array to match z_arr
 
+    # find some useful values to use for limit
     median = z_gradient.median().values[0]
     average = np.average(z_gradient.values)
     domain = (z_gradient.max() - z_gradient.min()).values[0]
 
     limit = median
 
+    # json file writing
     json_save_name = os.path.join(root_dir, "json", (name + ".json"))
     xyz.to_json(json_save_name)
     hg_json_save_name = os.path.join(root_dir, "json", (name + "-HG" + ".json"))
     xyz_HG = xyz[xyz['grad'] > limit]
     xyz_HG.to_json(hg_json_save_name)
 
-    # mask out the low-gradient areas
+    # mask out the low-gradient areas for plotting
     X, Y = np.meshgrid(np.arange(0, profiles), np.arange(0, profiles))
     X_mask = ma.masked_where(z_gradient_arr < limit, X)
     Y_mask = ma.masked_where(z_gradient_arr < limit, Y)
 
     # ---------------------------------------- Plotting ----------------------------------------
+
+    # plot input image (png)
     fig, ax = plt.subplots(1, 3, figsize=(22, 8))
     ax[0].set_xticklabels([])
     ax[0].set_yticklabels([])
@@ -102,12 +106,14 @@ def img_analysis(root_dir, name):
     ax[0].imshow(img)
     ax[0].grid(True)
 
+    # plot gradient as image
     ax[1].set_xticklabels([])
     ax[1].set_yticklabels([])
     ax[1].set_title('Row-wise Height Gradient', fontsize='xx-large')
     ax[1].imshow(z_gradient_arr, cmap='viridis')
     ax[1].grid(True)
 
+    # plot high gradient areas based on limit
     ax[2].set_xticklabels([])
     ax[2].set_yticklabels([])
     ax[2].set_title('High Gradient Areas', fontsize='xx-large')
@@ -117,6 +123,7 @@ def img_analysis(root_dir, name):
 
     fig.tight_layout()
 
+    # save figures
     save_fig_name = os.path.join(root_dir, "figures", (name + ".png"))
     plt.savefig(save_fig_name)
     # plt.show()
@@ -125,6 +132,7 @@ def img_analysis(root_dir, name):
 
 if __name__ == '__main__':
 
+    # get args
     args = parse_args()
     data_dir = args.root_dir
 
@@ -134,6 +142,7 @@ if __name__ == '__main__':
     if not os.path.isdir(os.path.join(data_dir, "json")):       # create a directory for json output
         os.mkdir(os.path.join(data_dir, "json"))
 
+    # run analysis on each scan
     for file in file_list:
         scan_name = os.path.splitext(file)[0]
         img_analysis(data_dir, scan_name)

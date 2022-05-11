@@ -1,6 +1,6 @@
  
 # AFM Image Gradient Analysis
-### This script runs final_project/main.py from Eva Natinsky's ME397M-DA final project with the following options:
+The script "run_main.sh" runs final_project/main.py from Eva Natinsky's ME397M-DA final project on TACC's Stampede2 system with the following options:
 	
 	** Job name: natinsky_final_proj
 	** Parition name: normal
