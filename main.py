@@ -63,11 +63,15 @@ def img_analysis(root_dir, name):
     """
     mode = os.path.splitext(name)[-1]
 
+    if mode.lower() == '.jpg' or mode.lower() == '.jpeg':   # processes jpegs the same way as png
+        mode = '.png'
+
     if mode == '.png':
         # ------------------------------------- Image Analysis -------------------------------------
 
         input_file = os.path.join(root_dir, name)      # get image file
         with Image.open(input_file) as img:
+            img = img.convert('RGB')  # convert to 3-channel (in case it's RGBA)
             img.load()
 
         z_arr = np.average(np.asarray(img), axis=2)
